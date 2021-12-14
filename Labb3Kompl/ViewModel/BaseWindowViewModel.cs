@@ -2,6 +2,7 @@
 using Labb3Kompl.Managers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using MongoDB.Driver;
 
 namespace Labb3Kompl.ViewModel
 {
@@ -10,6 +11,10 @@ namespace Labb3Kompl.ViewModel
         private readonly NavigationManager _navigationManager;
 
         public ObservableObject CurrentView => _navigationManager.CurrentView;
+
+        public static MongoClient dbClient = new MongoClient(
+            "mongodb+srv://nkt:adamkjellberg98@cluster0.zyo4q.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
+        public static IMongoDatabase database = dbClient.GetDatabase("butik");
 
         public BaseWindowViewModel(NavigationManager navigationManager)
         {

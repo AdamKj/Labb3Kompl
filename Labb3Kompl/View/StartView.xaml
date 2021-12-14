@@ -14,7 +14,71 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+        <Label
+            Grid.Row="0"
+            Grid.Column="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Content="Välkommen till butiken!"
+            FontSize="24" />
+        <StackPanel
+            Grid.Row="1"
+            Grid.RowSpan="2"
+            Grid.Column="0">
+            <Label
+                Height="50"
+                HorizontalAlignment="Center"
+                Content="Ny användare"
+                FontSize="20" />
+            <Label Margin="20,40,0,0" Content="Användarnamn" />
 
-        <StackPanel Grid.Column="0" />
+            <TextBox Width="220" Height="30" />
+
+            <Label Margin="20,60,0,0" Content="Lösenord" />
+            <TextBox Width="220" Height="30" />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="1"
+            Grid.RowSpan="2"
+            Grid.Column="1">
+            <Label
+                Height="50"
+                HorizontalAlignment="Center"
+                Content="Befintlig användare"
+                FontSize="20" />
+
+            <Label Margin="20,40,0,0" Content="Användarnamn" />
+
+            <TextBox Width="220" Height="30" />
+
+            <Label Margin="20,60,0,0" Content="Lösenord" />
+
+            <TextBox Width="220" Height="30" />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="1"
+            Grid.RowSpan="2"
+            Grid.Column="2">
+            <Label
+                Height="50"
+                HorizontalAlignment="Center"
+                Content="Admin"
+                FontSize="20" />
+            <Label Margin="20,40,0,0" Content="Användarnamn" />
+
+            <TextBox Width="220" Height="30" />
+
+            <Label Margin="20,60,0,0" Content="Lösenord" />
+
+            <TextBox Width="220" Height="30" />
+        </StackPanel>
     </Grid>
 </UserControl>

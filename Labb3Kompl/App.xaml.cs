@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using Labb3Kompl.Managers;
 using Labb3Kompl.ViewModel;
+using MongoDB.Driver;
 
 namespace Labb3Kompl
 {
