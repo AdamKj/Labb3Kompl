@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+using Labb3Kompl.Managers;
+using Labb3Kompl.ViewModel;
 
 namespace Labb3Kompl
 {
@@ -13,5 +9,23 @@ namespace Labb3Kompl
     /// </summary>
     public partial class App : Application
     {
+        private readonly NavigationManager _navigationManager;
+
+        public App()
+        {
+            _navigationManager = new NavigationManager();
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+
+            _navigationManager.CurrentView = new StartViewModel(_navigationManager);
+            var mainWindow = new BaseWindowViewModel(_navigationManager);
+            var startUpWindow = new MainWindow { DataContext = mainWindow };
+
+            startUpWindow.Show();
+        }
     }
 }

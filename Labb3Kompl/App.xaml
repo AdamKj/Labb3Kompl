@@ -1,9 +1,21 @@
-﻿<Application x:Class="Labb3Kompl.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Labb3Kompl"
-             StartupUri="MainWindow.xaml">
+﻿<Application
+    x:Class="Labb3Kompl.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:view="clr-namespace:Labb3Kompl.View"
+    xmlns:viewModel="clr-namespace:Labb3Kompl.ViewModel">
     <Application.Resources>
-         
+        <DataTemplate DataType="{x:Type viewModel:StartViewModel}">
+            <view:StartView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:KundProfilViewModel}">
+            <view:KundprofilView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:AdminViewModel}">
+            <view:AdminView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:ShopViewModel}">
+            <view:ShopView />
+        </DataTemplate>
     </Application.Resources>
 </Application>
