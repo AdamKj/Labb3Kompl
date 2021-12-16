@@ -12,10 +12,7 @@ namespace Labb3Kompl.ViewModel
 
         public ObservableObject CurrentView => _navigationManager.CurrentView;
 
-        public static MongoClient dbClient = new MongoClient(
-            "mongodb+srv://nkt:adamkjellberg98@cluster0.zyo4q.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
-        public static IMongoDatabase database = dbClient.GetDatabase("butik");
-
+        
         public BaseWindowViewModel(NavigationManager navigationManager)
         {
             _navigationManager = navigationManager;

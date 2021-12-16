@@ -38,10 +38,24 @@
                 FontSize="20" />
             <Label Margin="20,40,0,0" Content="Användarnamn" />
 
-            <TextBox Width="220" Height="30" />
+            <TextBox
+                Width="220"
+                Height="30"
+                Text="{Binding NewUsername, UpdateSourceTrigger=PropertyChanged}" />
 
             <Label Margin="20,60,0,0" Content="Lösenord" />
-            <TextBox Width="220" Height="30" />
+
+            <TextBox
+                Width="220"
+                Height="30"
+                Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" />
+            <Button
+                Width="200"
+                Height="50"
+                Margin="0,15,0,0"
+                Command="{Binding AddNewUserCommand}"
+                Content="Skapa användare"
+                FontSize="25" />
         </StackPanel>
 
         <StackPanel
@@ -62,7 +76,16 @@
 
             <TextBox Width="220" Height="30" />
         </StackPanel>
-
+        <Button
+            Grid.Row="2"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Width="200"
+            Height="50"
+            Margin="0,0,0,0"
+            VerticalAlignment="Bottom"
+            Content="Logga In"
+            FontSize="26" />
         <StackPanel
             Grid.Row="1"
             Grid.RowSpan="2"
