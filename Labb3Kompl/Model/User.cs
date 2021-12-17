@@ -11,7 +11,7 @@ namespace Labb3Kompl.Model
         private ObjectId ObjectId { get; set; }
 
         [BsonElement]
-        public string Name { get; set; }
+        public string Username { get; set; }
 
         [BsonElement]
         public string Password { get; set; }
