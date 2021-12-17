@@ -47,7 +47,15 @@ namespace Labb3Kompl.ViewModel
         }
 
         public ICommand AddNewUserCommand { get; }
-        public ICommand LogInExistingUserCommand { get; }
+        public ICommand LogInExistingUserCommand { get
+        {
+            return new RelayCommand(() =>
+            {
+                LogInExistingUser(CurrentUser);
+                LogInAdmin();
+                CheckIfUserOrAdmin();
+            });
+        } }
 
         public StartViewModel(NavigationManager navigationManager)
         {
@@ -57,13 +65,13 @@ namespace Labb3Kompl.ViewModel
             _database.GetCollection<Managers.MongoDB>("Admin");
             _navigationManager = navigationManager;
             AddNewUserCommand = new RelayCommand(AddNewUser, CanAddNewUser);
-            LogInExistingUserCommand = new RelayCommand(LogInExistingUser);
+
         }
 
         public void AddNewUser()
         {
             _db.InsertNewUser("Users", new User { Username = NewUsername, Password = NewPassword });
-            MessageBox.Show("Användaren är nu skapad!", "Success", MessageBoxButton.OK);
+            MessageBox.Show("Användaren är nu skapad! Vänligen logga in.", "Success", MessageBoxButton.OK);
             NewUsername = null;
             Password = null;
         }
@@ -84,17 +92,50 @@ namespace Labb3Kompl.ViewModel
             return true;
         }
 
-        public ICommand ShopViewCommand { get; }
-        public void LogInExistingUser()
+        public void LogInExistingUser(User currentUser)
         {
+            
             var collection = _database.GetCollection<User>("Users");
-            var adminCollection = _database.GetCollection<User>("Admin");
             bool exists = collection.Find(u => u.Username == Username).Any();
-            bool adminExists = adminCollection.Find(u => u.Username == Username).Any();
 
             if (exists)
             {
+                CurrentUser = currentUser;
                 MessageBox.Show($"Du har loggat in som {Username}!","Success", MessageBoxButton.OK);
+                NewUsername = null;
+                Password = null;
+                _navigationManager.CurrentView = new KundProfilViewModel(_navigationManager);
+            }
+        }
+
+        public void LogInAdmin()
+        {
+            var adminCollection = _database.GetCollection<User>("Admin");
+            bool adminExists = adminCollection.Find(u => u.Username == Username).Any();
+
+            if (adminExists)
+            {
+                MessageBox.Show($"Du har loggat in som {Username}!", "Admin", MessageBoxButton.OK);
+                NewUsername = null;
+                Password = null;
+                _navigationManager.CurrentView = new AdminViewModel(_navigationManager);
+            }
+        }
+
+        public void CheckIfUserOrAdmin()
+        {
+            var collection = _database.GetCollection<User>("Users");
+            bool exists = collection.Find(u => u.Username == Username).Any();
+            var adminCollection = _database.GetCollection<User>("Admin");
+            bool adminExists = adminCollection.Find(u => u.Username == Username).Any();
+
+            if (!adminExists && !exists)
+            {
+                MessageBox.Show(
+                    "Det här användarnamnet finns inte. Vänligen försök igen eller registrera ny användare.", "Error",
+                    MessageBoxButton.OK);
+                Username = null;
+                Password = null;
             }
         }
     }

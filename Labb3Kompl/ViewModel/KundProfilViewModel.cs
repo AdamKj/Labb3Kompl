@@ -12,7 +12,5 @@ namespace Labb3Kompl.ViewModel
         {
             this.navigationManager = navigationManager;
         }
-
-        private User CurrentUser { get; set; }
     }
 }
