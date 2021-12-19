@@ -9,5 +9,23 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+        <StackPanel
+            Grid.Row="0"
+            Grid.Column="0"
+            Orientation="Horizontal">
+            <Label Content="Du är inloggad som " />
+            <Label Content="{Binding CurrentUser, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+
     </Grid>
 </UserControl>

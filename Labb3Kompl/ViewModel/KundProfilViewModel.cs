@@ -7,10 +7,17 @@ namespace Labb3Kompl.ViewModel
     class KundProfilViewModel : ObservableObject
     {
         private NavigationManager navigationManager;
+        private readonly User _currentUser;
 
         public KundProfilViewModel(NavigationManager navigationManager)
         {
             this.navigationManager = navigationManager;
+            _currentUser = new User();
+        }
+
+        public string CurrentUser
+        {
+            get => _currentUser.ToString();
         }
     }
 }

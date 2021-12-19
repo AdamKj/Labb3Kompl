@@ -51,9 +51,9 @@ namespace Labb3Kompl.ViewModel
         {
             return new RelayCommand(() =>
             {
+                CheckTypeOfUser();
                 LogInExistingUser(CurrentUser);
                 LogInAdmin();
-                CheckIfUserOrAdmin();
             });
         } }
 
@@ -73,7 +73,7 @@ namespace Labb3Kompl.ViewModel
             _db.InsertNewUser("Users", new User { Username = NewUsername, Password = NewPassword });
             MessageBox.Show("Användaren är nu skapad! Vänligen logga in.", "Success", MessageBoxButton.OK);
             NewUsername = null;
-            Password = null;
+            NewPassword = null;
         }
 
         public bool CanAddNewUser()
@@ -85,7 +85,7 @@ namespace Labb3Kompl.ViewModel
             {
                 MessageBox.Show("Det här användarnamnet finns redan. Vänligen logga in befintlig användare eller försök med ett annat användarnamn.", "Error", MessageBoxButton.OK);
                 NewUsername = null;
-                Password = null;
+                NewPassword = null;
                 return false;
             }
             
@@ -102,7 +102,7 @@ namespace Labb3Kompl.ViewModel
             {
                 CurrentUser = currentUser;
                 MessageBox.Show($"Du har loggat in som {Username}!","Success", MessageBoxButton.OK);
-                NewUsername = null;
+                Username = null;
                 Password = null;
                 _navigationManager.CurrentView = new KundProfilViewModel(_navigationManager);
             }
@@ -116,13 +116,13 @@ namespace Labb3Kompl.ViewModel
             if (adminExists)
             {
                 MessageBox.Show($"Du har loggat in som {Username}!", "Admin", MessageBoxButton.OK);
-                NewUsername = null;
+                Username = null;
                 Password = null;
                 _navigationManager.CurrentView = new AdminViewModel(_navigationManager);
             }
         }
 
-        public void CheckIfUserOrAdmin()
+        public void CheckTypeOfUser()
         {
             var collection = _database.GetCollection<User>("Users");
             bool exists = collection.Find(u => u.Username == Username).Any();

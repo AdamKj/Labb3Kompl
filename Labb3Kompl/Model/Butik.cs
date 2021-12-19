@@ -5,7 +5,7 @@ namespace Labb3Kompl.Model
 {
     class Butik
     {
-        public string Name { get; set; }
+        public string Username { get; set; }
         public User Admin { get; set; }
 
         public Dictionary<Produkt, int> Lager;
