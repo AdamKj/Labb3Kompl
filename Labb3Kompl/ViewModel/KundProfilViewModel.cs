@@ -6,18 +6,21 @@ namespace Labb3Kompl.ViewModel
 {
     class KundProfilViewModel : ObservableObject
     {
-        private NavigationManager navigationManager;
-        private readonly User _currentUser;
+        private NavigationManager _navigationManager;
+        private UserManager _userManager;
+        private User _currentUser;
 
-        public KundProfilViewModel(NavigationManager navigationManager)
+        public KundProfilViewModel(NavigationManager navigationManager, UserManager userManager)
         {
-            this.navigationManager = navigationManager;
-            _currentUser = new User();
+            _navigationManager = navigationManager;
+            _userManager = userManager;
+            CurrentUser = _userManager.CurrentUser;
         }
 
-        public string CurrentUser
+        public User CurrentUser
         {
-            get => _currentUser.ToString();
+            get => _currentUser;
+            set => SetProperty(ref _currentUser, value);
         }
     }
 }

@@ -12,10 +12,12 @@ namespace Labb3Kompl
     public partial class App : Application
     {
         private readonly NavigationManager _navigationManager;
+        private readonly UserManager _userManager;
 
         public App()
         {
             _navigationManager = new NavigationManager();
+            _userManager = new UserManager();
         }
 
         private IMongoDatabase _database;
@@ -23,8 +25,8 @@ namespace Labb3Kompl
         {
             base.OnStartup(e);
 
-            _navigationManager.CurrentView = new StartViewModel(_navigationManager);
-            var mainWindow = new BaseWindowViewModel(_navigationManager);
+            _navigationManager.CurrentView = new StartViewModel(_navigationManager, _userManager);
+            var mainWindow = new BaseWindowViewModel(_navigationManager, _userManager);
             var startUpWindow = new MainWindow { DataContext = mainWindow };
 
             startUpWindow.Show();

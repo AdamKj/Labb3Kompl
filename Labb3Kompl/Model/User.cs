@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using System.Collections.Generic;
 
 namespace Labb3Kompl.Model
 {
-    class User
+    class User : ObservableObject
     {
 
         [BsonId]
@@ -12,10 +13,14 @@ namespace Labb3Kompl.Model
 
         [BsonElement]
         public string Username { get; set; }
-
         [BsonElement]
         public string Password { get; set; }
 
         public Dictionary<Produkt, int> Kundkorg;
+        
+        public override string ToString()
+        {
+            return $"Du är inloggad som {Username}";
+        }
     }
 }

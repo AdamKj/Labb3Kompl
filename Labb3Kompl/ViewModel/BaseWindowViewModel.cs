@@ -9,15 +9,17 @@ namespace Labb3Kompl.ViewModel
     class BaseWindowViewModel : ObservableObject
     {
         private readonly NavigationManager _navigationManager;
+        private UserManager _userManager;
 
         public ObservableObject CurrentView => _navigationManager.CurrentView;
 
         
-        public BaseWindowViewModel(NavigationManager navigationManager)
+        public BaseWindowViewModel(NavigationManager navigationManager, UserManager userManager)
         {
             _navigationManager = navigationManager;
-            StartViewCommand = new RelayCommand(() => { _navigationManager.CurrentView = new StartViewModel(_navigationManager); });
-            KundprofilViewCommand = new RelayCommand(() => { _navigationManager.CurrentView = new KundProfilViewModel(_navigationManager); });
+            _userManager = userManager;
+            StartViewCommand = new RelayCommand(() => { _navigationManager.CurrentView = new StartViewModel(_navigationManager, _userManager); });
+            KundprofilViewCommand = new RelayCommand(() => { _navigationManager.CurrentView = new KundProfilViewModel(_navigationManager, _userManager); });
             AdminViewCommand = new RelayCommand(() => { _navigationManager.CurrentView = new AdminViewModel(_navigationManager); });
             ShopViewCommand = new RelayCommand(() => { _navigationManager.CurrentView = new ShopViewModel(_navigationManager); });
             _navigationManager.CurrentViewModelChanged += CurrentViewModelChanged;

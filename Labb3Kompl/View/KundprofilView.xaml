@@ -23,7 +23,6 @@
             Grid.Row="0"
             Grid.Column="0"
             Orientation="Horizontal">
-            <Label Content="Du är inloggad som " />
             <Label Content="{Binding CurrentUser, UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>
 

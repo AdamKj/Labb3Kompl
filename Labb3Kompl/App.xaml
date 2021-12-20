@@ -17,5 +17,6 @@
         <DataTemplate DataType="{x:Type viewModel:ShopViewModel}">
             <view:ShopView />
         </DataTemplate>
+        <ObjectDataProvider x:Key="ToString" ObjectType="{x:Type viewModel:KundProfilViewModel}" />
     </Application.Resources>
 </Application>
