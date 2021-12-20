@@ -13,6 +13,7 @@ namespace Labb3Kompl.Model
 
         [BsonElement]
         public string Username { get; set; }
+
         [BsonElement]
         public string Password { get; set; }
 
@@ -20,7 +21,7 @@ namespace Labb3Kompl.Model
         
         public override string ToString()
         {
-            return $"Du är inloggad som {Username}";
+            return $"Du är inloggad som: {Username}";
         }
     }
 }

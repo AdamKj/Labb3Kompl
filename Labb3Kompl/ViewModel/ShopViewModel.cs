@@ -8,7 +8,7 @@ namespace Labb3Kompl.ViewModel
     {
         private NavigationManager navigationManager;
 
-        public ShopViewModel(NavigationManager navigationManager)
+        public ShopViewModel(NavigationManager navigationManager, UserManager _userManager)
         {
             this.navigationManager = navigationManager;
         }

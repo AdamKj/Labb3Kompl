@@ -21,7 +21,7 @@ namespace Labb3Kompl.ViewModel
             StartViewCommand = new RelayCommand(() => { _navigationManager.CurrentView = new StartViewModel(_navigationManager, _userManager); });
             KundprofilViewCommand = new RelayCommand(() => { _navigationManager.CurrentView = new KundProfilViewModel(_navigationManager, _userManager); });
             AdminViewCommand = new RelayCommand(() => { _navigationManager.CurrentView = new AdminViewModel(_navigationManager); });
-            ShopViewCommand = new RelayCommand(() => { _navigationManager.CurrentView = new ShopViewModel(_navigationManager); });
+            ShopViewCommand = new RelayCommand(() => { _navigationManager.CurrentView = new ShopViewModel(_navigationManager, _userManager); });
             _navigationManager.CurrentViewModelChanged += CurrentViewModelChanged;
         }
 
