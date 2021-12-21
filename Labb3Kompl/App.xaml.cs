@@ -1,8 +1,7 @@
-﻿using System.Windows;
-using Labb3Kompl.Managers;
+﻿using Labb3Kompl.Managers;
 using Labb3Kompl.ViewModel;
 using MongoDB.Driver;
-using MongoDB = Labb3Kompl.Managers.MongoDB;
+using System.Windows;
 
 namespace Labb3Kompl
 {

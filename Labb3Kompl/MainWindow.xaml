@@ -8,6 +8,7 @@
     Title="MainWindow"
     Width="800"
     Height="450"
+    ResizeMode="NoResize"
     mc:Ignorable="d">
     <Grid>
         <ContentControl Content="{Binding CurrentView}" />

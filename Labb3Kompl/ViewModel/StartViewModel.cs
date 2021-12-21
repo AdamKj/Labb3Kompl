@@ -1,13 +1,11 @@
-﻿using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
-using Labb3Kompl.Managers;
+﻿using Labb3Kompl.Managers;
 using Labb3Kompl.Model;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
+using System;
+using System.Windows;
+using System.Windows.Input;
 
 namespace Labb3Kompl.ViewModel
 {
@@ -18,9 +16,10 @@ namespace Labb3Kompl.ViewModel
         private string _newUsername;
         private string _password;
         private string _newPassword;
-        private readonly Managers.MongoDB _db = new Managers.MongoDB("Butik"); 
+        private readonly Managers.MongoDB _db = new("Butik"); 
         private readonly IMongoDatabase _database;
         private readonly UserManager _userManager;
+        public Produkt Produkt = new();
 
         private User CurrentUser { get; set; }
         
@@ -70,14 +69,32 @@ namespace Labb3Kompl.ViewModel
             CurrentUser = _userManager.CurrentUser;
         }
 
+        /// <summary>
+        /// Inserts a new User into the User collection
+        /// </summary>
         public void AddNewUser()
         {
-            _db.InsertNewUser("Users", new User { Username = NewUsername, Password = NewPassword });
+            while (true)
+            {
+                if (String.IsNullOrWhiteSpace(NewUsername) || String.IsNullOrWhiteSpace(NewPassword))
+                {
+                    MessageBox.Show("Användarnamn och Lösenord kan inte vara tomt. Försök igen.", "Error", MessageBoxButton.OK);
+                    return;
+                }
+
+                break;
+            }
+
+            _db.InsertNew("Users", new User { Username = NewUsername, Password = NewPassword });
             MessageBox.Show("Användaren är nu skapad! Vänligen logga in.", "Success", MessageBoxButton.OK);
             NewUsername = null;
             NewPassword = null;
         }
 
+        /// <summary>
+        /// Checks if the said Username already exists or not
+        /// </summary>
+        /// <returns></returns>
         public bool CanAddNewUser()
         {
             var collection = _database.GetCollection<User>("Users");
@@ -90,7 +107,7 @@ namespace Labb3Kompl.ViewModel
                 NewPassword = null;
                 return false;
             }
-            
+
             return true;
         }
 
@@ -130,6 +147,9 @@ namespace Labb3Kompl.ViewModel
             }
         }
 
+        /// <summary>
+        /// Checks if the said Username is an Admin or a regular User
+        /// </summary>
         public void CheckTypeOfUser()
         {
             var collection = _database.GetCollection<User>("Users");

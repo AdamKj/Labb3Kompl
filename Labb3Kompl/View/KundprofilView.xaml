@@ -52,7 +52,9 @@
             <ListView
                 Height="250"
                 Background="Transparent"
-                FontSize="14" />
+                FontSize="14"
+                ItemsSource="{Binding Kundkorg, UpdateSourceTrigger=PropertyChanged}"
+                SelectedItem="{Binding UserKundkorg, UpdateSourceTrigger=PropertyChanged}" />
 
             <Button
                 Width="150"

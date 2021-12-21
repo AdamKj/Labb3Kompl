@@ -7,7 +7,6 @@ namespace Labb3Kompl.Model
 {
     class User : ObservableObject
     {
-
         [BsonId]
         private ObjectId ObjectId { get; set; }
 
