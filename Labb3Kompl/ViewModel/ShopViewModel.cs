@@ -72,7 +72,7 @@ namespace Labb3Kompl.ViewModel
             Kundkorg.Add(SelectedProdukt, Amount);
             MessageBox.Show($"Du har lagt till {Amount}st {SelectedProdukt} i din kundkorg");
             Amount = 0;
-            _db.UpsertRecord("Users", _userManager.CurrentUser.ObjectId, Kundkorg[SelectedProdukt]);
+            _db.UpsertRecord("Users", _userManager.CurrentUser);
         }
 
         public void LoadProducts()

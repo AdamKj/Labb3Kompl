@@ -1,4 +1,5 @@
-﻿using Labb3Kompl.Model;
+﻿using System.Threading.Tasks;
+using Labb3Kompl.Model;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -21,13 +22,11 @@ namespace Labb3Kompl.Managers
             collection.InsertOneAsync(input);
         }
 
-        public void UpsertRecord<T>(string dbCollection, ObjectId id, T record)
+        public Task UpsertRecord(string dbCollection, User user)
         {
-            var collection = _database.GetCollection<T>(dbCollection);
-            var result = collection.ReplaceOneAsync(
-                new BsonDocument("_id", id),
-                record,
-                new UpdateOptions { IsUpsert = true });
+            var collection = _database.GetCollection<User>(dbCollection);
+            var filter = Builders<User>.Filter.Eq("_id", user.ObjectId);
+            return collection.ReplaceOneAsync(filter, user, new ReplaceOptions {IsUpsert = true});
         }
 
         public void DeleteRecord<T>(string dbCollection, ObjectId id)
