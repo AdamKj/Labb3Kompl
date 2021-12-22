@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
@@ -31,8 +30,9 @@ namespace Labb3Kompl.Model
             //_db.InsertNew("Produkter", new { ProductName = "Strumpor", ProductType = "Kläder", Price = 69 });
         }
 
-        public void AddProducts()
+        public override string ToString()
         {
+            return $"{ProductName}";
         }
     }
 }

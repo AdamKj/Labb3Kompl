@@ -8,7 +8,7 @@ namespace Labb3Kompl.Model
     class User : ObservableObject
     {
         [BsonId]
-        private ObjectId ObjectId { get; set; }
+        public ObjectId ObjectId { get; set; }
 
         [BsonElement]
         public string Username { get; set; }
@@ -16,7 +16,8 @@ namespace Labb3Kompl.Model
         [BsonElement]
         public string Password { get; set; }
 
-        public Dictionary<Produkt, int> Kundkorg;
+        [BsonElement]
+        public Dictionary<Produkt, int> Kundkorg { get; set; }
         
         public override string ToString()
         {

@@ -46,12 +46,24 @@
                 Width="300"
                 Height="150"
                 Margin="0,50,0,0"
-                ItemsSource="{Binding Produkt}" />
+                ItemsSource="{Binding Produkter, UpdateSourceTrigger=PropertyChanged}"
+                SelectedItem="{Binding SelectedProdukt, UpdateSourceTrigger=PropertyChanged}">
+                <ListView.View>
+                    <GridView AllowsColumnReorder="True">
+                        <GridView.Columns>
+                            <GridViewColumn DisplayMemberBinding="{Binding ProductName}" Header="Produkt" />
+                            <GridViewColumn DisplayMemberBinding="{Binding ProductType}" Header="Produkt Typ" />
+                            <GridViewColumn DisplayMemberBinding="{Binding Price}" Header="Pris" />
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
 
             <Button
                 Width="150"
                 Height="50"
                 Margin="0,70,0,0"
+                Command="{Binding AddToCartCommand}"
                 Content="Lägg till i kundvagn"
                 FontSize="16" />
         </StackPanel>
@@ -65,7 +77,7 @@
             Orientation="Horizontal">
 
             <Label
-                Margin="15,0,0,0"
+                Margin="30,0,0,0"
                 VerticalContentAlignment="Center"
                 Content="Antal:"
                 FontSize="16" />
@@ -74,7 +86,8 @@
                 Width="50"
                 Height="20"
                 Margin="5,0,0,0"
-                HorizontalAlignment="Left" />
+                HorizontalAlignment="Left"
+                Text="{Binding Amount}" />
         </StackPanel>
 
         <StackPanel

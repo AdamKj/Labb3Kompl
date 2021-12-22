@@ -19,7 +19,6 @@ namespace Labb3Kompl.ViewModel
         private readonly Managers.MongoDB _db = new("Butik"); 
         private readonly IMongoDatabase _database;
         private readonly UserManager _userManager;
-        public Produkt Produkt = new();
 
         private User CurrentUser { get; set; }
         
@@ -119,14 +118,23 @@ namespace Labb3Kompl.ViewModel
         {
             
             var collection = _database.GetCollection<User>("Users");
-            bool exists = collection.Find(u => u.Username == Username).Any();
+            bool usernameExists = collection.Find(u => u.Username == Username).Any();
+            //bool passwordExists = collection.Find(u => u.Password == Password).Equals(Username);
 
-            if (exists)
+            if (usernameExists)
             {
                 CurrentUser = collection.Find(u => u.Username == Username).Single();
                 _userManager.CurrentUser = CurrentUser;
-                MessageBox.Show($"Du har loggat in som {Username}!","Success", MessageBoxButton.OK);
-                _navigationManager.CurrentView = new KundProfilViewModel(_navigationManager, _userManager);
+
+                if (Password == _userManager.CurrentUser.Password)
+                {
+                    MessageBox.Show($"Du har loggat in som {Username}!", "Success", MessageBoxButton.OK);
+                    _navigationManager.CurrentView = new KundProfilViewModel(_navigationManager, _userManager);
+                    return;
+                }
+
+                MessageBox.Show("Fel lösenord. Försök igen.", "Error", MessageBoxButton.OK);
+                Password = null;
             }
         }
 
