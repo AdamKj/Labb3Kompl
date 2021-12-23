@@ -47,7 +47,7 @@
                 Height="150"
                 Margin="0,50,0,0"
                 ItemsSource="{Binding Produkter, UpdateSourceTrigger=PropertyChanged}"
-                SelectedItem="{Binding SelectedProdukt, UpdateSourceTrigger=PropertyChanged}">
+                SelectedItem="{Binding SelectedProduct, UpdateSourceTrigger=PropertyChanged}">
                 <ListView.View>
                     <GridView AllowsColumnReorder="True">
                         <GridView.Columns>
@@ -101,6 +101,14 @@
                 FontSize="16" />
 
             <ComboBox Width="200" Margin="0,5,0,0" />
+
+            <Button
+                Width="165"
+                Height="50"
+                Margin="0,70,0,0"
+                Command="{Binding KundprofilViewCommand}"
+                Content="Tillbaka till Kundprofil"
+                FontSize="16" />
 
         </StackPanel>
 

@@ -18,7 +18,7 @@ namespace Labb3Kompl.ViewModel
     class ShopViewModel : ObservableObject
     {
         public ObservableCollection<Produkt> Produkter { get; set; } = new();
-        public Dictionary<Produkt, int> Kundkorg { get; set; } = new();
+        public ObservableCollection<Produkt> UserCart { get; set; } = new();
         private readonly Managers.MongoDB _db = new("Butik");
         private NavigationManager _navigationManager;
         private UserManager _userManager = new();
@@ -27,6 +27,7 @@ namespace Labb3Kompl.ViewModel
         private Produkt _produkt;
         private IMongoDatabase _database;
         private IMongoCollection<Produkt> _collection;
+        public ICommand KundprofilViewCommand { get; }
         public ICommand AddToCartCommand => new RelayCommand(AddToCart);
 
         public ShopViewModel(NavigationManager navigationManager, UserManager userManager)
@@ -34,20 +35,21 @@ namespace Labb3Kompl.ViewModel
             LoadProducts();
             _navigationManager = navigationManager;
             _userManager = userManager;
+            KundprofilViewCommand = new RelayCommand(() => { _navigationManager.CurrentView = new KundProfilViewModel(_navigationManager, _userManager); });
+
         }
 
         public Butik CurrentStore { get; set; }
         public User CurrentUser { get; set; }
 
         private int _amount;
-
         public int Amount
         {
             get => _amount;
             set => SetProperty(ref _amount, value);
         }
 
-        public Produkt SelectedProdukt
+        public Produkt SelectedProduct
         {
             get => _produkt;
             set
@@ -55,26 +57,30 @@ namespace Labb3Kompl.ViewModel
                 if (_produkt != value)
                 {
                     _produkt = value;
-                    OnPropertyChanged(nameof(SelectedProdukt));
+                    OnPropertyChanged(nameof(SelectedProduct));
                 }
             }
         }
 
         public void AddToCart()
         {
-            int val;
-            if (Kundkorg.TryGetValue(SelectedProdukt, out val))
-            {
-                Kundkorg[SelectedProdukt] = val += Amount;
-                return;
-            }
+            //int val;
+            //if (UserCart.Contains())
+            //{
+            //    UserCart[SelectedProduct] = val += Amount;
+            //    return;
+            //}
 
-            Kundkorg.Add(SelectedProdukt, Amount);
-            MessageBox.Show($"Du har lagt till {Amount}st {SelectedProdukt} i din kundkorg");
+            UserCart.Add(SelectedProduct);
+            MessageBox.Show($"Du har lagt till {Amount}st {SelectedProduct} i din kundkorg");
+            _userManager.CurrentUser.Kundkorg = UserCart;
             Amount = 0;
             _db.UpsertRecord("Users", _userManager.CurrentUser);
         }
 
+        /// <summary>
+        ///Loads in all data from collection into the listview
+        /// </summary>
         public void LoadProducts()
         {
             var dbClient = new MongoClient();

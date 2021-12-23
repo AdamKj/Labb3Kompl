@@ -22,6 +22,9 @@ namespace Labb3Kompl.Model
         [BsonElement]
         public double Price { get; set; }
 
+        [BsonElement] 
+        public int Amount { get; set; }
+
         public Produkt()
         {
             var dbClient = new MongoClient();

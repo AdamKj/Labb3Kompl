@@ -1,20 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Controls;
-using Labb3Kompl.Managers;
+﻿using Labb3Kompl.Managers;
 using Labb3Kompl.Model;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace Labb3Kompl.ViewModel
 {
     class KundProfilViewModel : ObservableObject
     {
-        public Dictionary<Produkt, int> Kundkorg { get; set; } = new();
+        public ObservableCollection<Produkt> Kundkorg { get; set; } = new();
         private NavigationManager _navigationManager;
         private UserManager _userManager;
         private User _currentUser;
+
 
         public ICommand StartViewCommand { get; }
         public ICommand ShopViewCommand { get; }
@@ -34,16 +33,24 @@ namespace Labb3Kompl.ViewModel
             set => SetProperty(ref _currentUser, value);
         }
 
-        public User UserKundkorg
+        private int _amount;
+
+        public int Amount
         {
-            get => _currentUser;
+            get => _amount;
+            set => SetProperty(ref _amount, value);
+        }
+
+        private Produkt _produkt;
+        public Produkt SelectedProdukt
+        {
+            get => _produkt;
             set
             {
-                _currentUser = value;
-                SetProperty(ref _currentUser, value);
-                foreach (var item in Kundkorg)
+                if (_produkt != value)
                 {
-                    CurrentUser.Kundkorg.Add(item.Key, item.Value);
+                    _produkt = value;
+                    OnPropertyChanged(nameof(SelectedProdukt));
                 }
             }
         }

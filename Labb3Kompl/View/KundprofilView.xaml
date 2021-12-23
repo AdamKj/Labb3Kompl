@@ -54,7 +54,32 @@
                 Background="Transparent"
                 FontSize="14"
                 ItemsSource="{Binding Kundkorg, UpdateSourceTrigger=PropertyChanged}"
-                SelectedItem="{Binding UserKundkorg, UpdateSourceTrigger=PropertyChanged}" />
+                SelectedItem="{Binding SelectedProdukt, UpdateSourceTrigger=PropertyChanged}">
+
+                <ListView.View>
+                    <GridView AllowsColumnReorder="True">
+                        <GridView.Columns>
+                            <GridViewColumn
+                                Width="Auto"
+                                DisplayMemberBinding="{Binding ProductName}"
+                                Header="Produkt" />
+                            <GridViewColumn
+                                Width="Auto"
+                                DisplayMemberBinding="{Binding ProductType}"
+                                Header="Produkt Typ" />
+                            <GridViewColumn
+                                Width="Auto"
+                                DisplayMemberBinding="{Binding Price}"
+                                Header="Pris" />
+                            <GridViewColumn
+                                Width="Auto"
+                                DisplayMemberBinding="{Binding Amount}"
+                                Header="Mängd" />
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
 
             <Button
                 Width="150"

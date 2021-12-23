@@ -2,6 +2,8 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Labb3Kompl.Managers;
 
 namespace Labb3Kompl.Model
 {
@@ -17,7 +19,12 @@ namespace Labb3Kompl.Model
         public string Password { get; set; }
 
         [BsonElement]
-        public Dictionary<Produkt, int> Kundkorg { get; set; }
+        public ObservableCollection<Produkt> Kundkorg { get; set; }
+
+        public User()
+        {
+            Kundkorg = new ObservableCollection<Produkt>();
+        }
         
         public override string ToString()
         {

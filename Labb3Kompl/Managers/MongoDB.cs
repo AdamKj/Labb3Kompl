@@ -7,9 +7,7 @@ namespace Labb3Kompl.Managers
 {
     class MongoDB
     {
-
         private IMongoDatabase _database;
-        private User user;
 
         public MongoDB(string database)
         {
