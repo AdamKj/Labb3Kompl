@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Windows;
+using Labb3Kompl.Managers;
 
 namespace Labb3Kompl.Model
 {
     class Butik
     {
+        private UserManager _userManager;
         public string Username { get; set; }
         public User Admin { get; set; }
 
@@ -15,9 +19,20 @@ namespace Labb3Kompl.Model
             return true;
         }
 
-        public async Task CheckOutUser(User kund)
+        public Butik(UserManager userManager)
         {
-            //Töm kundkorgen och gör en message.showbox när det är klart och stäng ner
+            _userManager = userManager;
+        }
+
+        public async Task CheckOutUser(User user)
+        {
+            _userManager.CurrentUser.Kundkorg.Clear();
+            MessageBox.Show("Tack för att du handlade i butiken!", "Goodbye", MessageBoxButton.OK);
+            Application.Current.Shutdown();
+        }
+        public async void CheckOut()
+        {
+            await CheckOutUser(_userManager.CurrentUser);
         }
     }
 }

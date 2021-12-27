@@ -36,10 +36,23 @@
             <Button
                 Width="150"
                 Height="50"
-                Margin="0,180,0,0"
+                Margin="0,100,0,0"
                 VerticalAlignment="Bottom"
                 Command="{Binding StartViewCommand, UpdateSourceTrigger=PropertyChanged}"
                 Content="Startmeny"
+                FontSize="18" />
+
+            <Label
+                Margin="0,30,0,10"
+                HorizontalContentAlignment="Center"
+                Content="" />
+
+            <Button
+                Width="150"
+                Height="50"
+                VerticalAlignment="Bottom"
+                Command="{Binding ExitShopCommand, UpdateSourceTrigger=PropertyChanged}"
+                Content="Betala och lämna"
                 FontSize="18" />
 
         </StackPanel>
@@ -53,7 +66,7 @@
                 Height="250"
                 Background="Transparent"
                 FontSize="14"
-                ItemsSource="{Binding Kundkorg, UpdateSourceTrigger=PropertyChanged}"
+                ItemsSource="{Binding UserCart, UpdateSourceTrigger=PropertyChanged}"
                 SelectedItem="{Binding SelectedProdukt, UpdateSourceTrigger=PropertyChanged}">
 
                 <ListView.View>
@@ -70,7 +83,7 @@
                             <GridViewColumn
                                 Width="Auto"
                                 DisplayMemberBinding="{Binding Price}"
-                                Header="Pris" />
+                                Header="Styck pris" />
                             <GridViewColumn
                                 Width="Auto"
                                 DisplayMemberBinding="{Binding Amount}"

@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Input;
-using Labb3Kompl.Managers;
+﻿using Labb3Kompl.Managers;
 using Labb3Kompl.Model;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using MongoDB.Bson;
 using MongoDB.Driver;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
+using System.Windows.Input;
 
 namespace Labb3Kompl.ViewModel
 {
@@ -33,14 +28,12 @@ namespace Labb3Kompl.ViewModel
         public ShopViewModel(NavigationManager navigationManager, UserManager userManager)
         {
             LoadProducts();
+            _userManager.CurrentUser.Kundkorg = UserCart; 
             _navigationManager = navigationManager;
             _userManager = userManager;
             KundprofilViewCommand = new RelayCommand(() => { _navigationManager.CurrentView = new KundProfilViewModel(_navigationManager, _userManager); });
-
         }
-
-        public Butik CurrentStore { get; set; }
-        public User CurrentUser { get; set; }
+        
 
         private int _amount;
         public int Amount
@@ -64,16 +57,25 @@ namespace Labb3Kompl.ViewModel
 
         public void AddToCart()
         {
-            //int val;
-            //if (UserCart.Contains())
-            //{
-            //    UserCart[SelectedProduct] = val += Amount;
-            //    return;
-            //}
-
+            if (Amount == 0 || SelectedProduct == null)
+            {
+                MessageBox.Show("Vänligen välj produkt och antalet du vill lägga i din kundkorg","Error", MessageBoxButton.OK);
+                return;
+            }
+            if (UserCart.Contains(SelectedProduct))
+            {
+                MessageBox.Show($"Du har lagt till {Amount}st till {SelectedProduct} i din kundkorg");
+                _userManager.CurrentUser.Kundkorg = UserCart;
+                _produkt.Amount += Amount;
+                _db.UpsertRecord("Users", _userManager.CurrentUser);
+                Amount = 0;
+                return;
+            }
+            
             UserCart.Add(SelectedProduct);
             MessageBox.Show($"Du har lagt till {Amount}st {SelectedProduct} i din kundkorg");
             _userManager.CurrentUser.Kundkorg = UserCart;
+            _produkt.Amount = Amount;
             Amount = 0;
             _db.UpsertRecord("Users", _userManager.CurrentUser);
         }

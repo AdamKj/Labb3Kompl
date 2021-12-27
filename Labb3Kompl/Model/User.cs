@@ -1,9 +1,7 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Labb3Kompl.Managers;
 
 namespace Labb3Kompl.Model
 {
@@ -17,7 +15,7 @@ namespace Labb3Kompl.Model
 
         [BsonElement]
         public string Password { get; set; }
-
+        
         [BsonElement]
         public ObservableCollection<Produkt> Kundkorg { get; set; }
 

@@ -30,7 +30,6 @@ namespace Labb3Kompl.Model
             var dbClient = new MongoClient();
             _database = dbClient.GetDatabase("Butik");
             _database.GetCollection<Managers.MongoDB>("Produkter");
-            //_db.InsertNew("Produkter", new { ProductName = "Strumpor", ProductType = "Kläder", Price = 69 });
         }
 
         public override string ToString()

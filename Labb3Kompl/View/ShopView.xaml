@@ -54,6 +54,7 @@
                             <GridViewColumn DisplayMemberBinding="{Binding ProductName}" Header="Produkt" />
                             <GridViewColumn DisplayMemberBinding="{Binding ProductType}" Header="Produkt Typ" />
                             <GridViewColumn DisplayMemberBinding="{Binding Price}" Header="Pris" />
+                            <GridViewColumn DisplayMemberBinding="{Binding Amount}" Header="Antal i butik" />
                         </GridView.Columns>
                     </GridView>
                 </ListView.View>
