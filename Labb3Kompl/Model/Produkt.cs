@@ -11,7 +11,7 @@ namespace Labb3Kompl.Model
         private readonly IMongoDatabase _database;
 
         [BsonId]
-        private ObjectId ObjectId { get; set; }
+        public ObjectId ObjectId { get; set; }
 
         [BsonElement]
         public string ProductName { get; set; }

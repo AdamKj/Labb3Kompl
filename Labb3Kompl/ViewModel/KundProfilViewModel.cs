@@ -14,12 +14,12 @@ namespace Labb3Kompl.ViewModel
         private NavigationManager _navigationManager;
         private UserManager _userManager;
         private User _currentUser;
-        private Butik _butik = new(new UserManager());
+        private Butik _butik = new();
 
 
         public ICommand StartViewCommand { get; }
         public ICommand ShopViewCommand { get; }
-        public ICommand ExitShopCommand => new RelayCommand(_butik.CheckOut);
+        public ICommand ExitShopCommand => new RelayCommand(CheckOut);
         public KundProfilViewModel(NavigationManager navigationManager, UserManager userManager)
         {
             _navigationManager = navigationManager;
@@ -56,6 +56,10 @@ namespace Labb3Kompl.ViewModel
             {
                 UserCart.Add(item);
             }
+        }
+        public async void CheckOut()
+        {
+            await _butik.CheckOutUser(_userManager.CurrentUser);
         }
     }
 }
