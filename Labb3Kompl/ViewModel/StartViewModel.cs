@@ -151,7 +151,7 @@ namespace Labb3Kompl.ViewModel
                 MessageBox.Show($"Du har loggat in som {Username}!", "Admin", MessageBoxButton.OK);
                 Username = null;
                 Password = null;
-                _navigationManager.CurrentView = new AdminViewModel(_navigationManager);
+                _navigationManager.CurrentView = new AdminViewModel(_navigationManager, _userManager);
             }
         }
 

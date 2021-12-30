@@ -30,7 +30,7 @@ namespace Labb3Kompl.Managers
         public void DeleteRecord<T>(string dbCollection, ObjectId id)
         {
             var collection = _database.GetCollection<T>(dbCollection);
-            var filter = Builders<T>.Filter.Eq("Id", id);
+            var filter = Builders<T>.Filter.Eq("_id", id);
             collection.DeleteOneAsync(filter);
         }
     }
