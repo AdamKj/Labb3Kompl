@@ -114,6 +114,11 @@
                 Content="Tillbaka till Kundprofil"
                 FontSize="16" />
 
+            <Image
+                Width="180"
+                Height="120"
+                Margin="0,20,0,0" />
+
         </StackPanel>
 
     </Grid>

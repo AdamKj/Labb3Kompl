@@ -1,18 +1,15 @@
-﻿using System;
-using Labb3Kompl.Managers;
+﻿using Labb3Kompl.Managers;
 using Labb3Kompl.Model;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using MongoDB.Driver;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
-using MongoDB.Bson;
-using MongoDB.Driver.Core.Clusters.ServerSelectors;
 
 namespace Labb3Kompl.ViewModel
 {
@@ -26,6 +23,7 @@ namespace Labb3Kompl.ViewModel
         private UserManager _userManager = new();
         private Produkt _produkt;
         private IMongoDatabase _database;
+
         public ICommand KundprofilViewCommand { get; }
         public ICommand AddToCartCommand => new RelayCommand(AddToCart);
 
@@ -34,12 +32,21 @@ namespace Labb3Kompl.ViewModel
             LoadProducts();
             GetProductTypes();
             LoadProductType();
+            
             _userManager.CurrentUser.Kundkorg = UserCart;
             _navigationManager = navigationManager;
             _userManager = userManager;
             KundprofilViewCommand = new RelayCommand(() => { _navigationManager.CurrentView = new KundProfilViewModel(_navigationManager, _userManager); });
+            ImageDecider();
         }
-        
+
+        private bool _isFalse;
+
+        public bool IsFalse
+        {
+            get => _isFalse;
+            set => SetProperty(ref _isFalse, value);
+        }
 
         private int _amount;
         public int Amount
@@ -87,7 +94,7 @@ namespace Labb3Kompl.ViewModel
             }
             if (UserCart.Contains(SelectedProduct))
             {
-                MessageBox.Show($"Du har lagt till {Amount}st till {SelectedProduct} i din kundkorg");
+                MessageBox.Show($"Du har lagt till {Amount}st mer {SelectedProduct} i din kundkorg");
                 _userManager.CurrentUser.Kundkorg = UserCart;
                 _produkt.Amount += Amount;
                 _db.UpsertRecord("Users", _userManager.CurrentUser);
@@ -99,8 +106,8 @@ namespace Labb3Kompl.ViewModel
             MessageBox.Show($"Du har lagt till {Amount}st {SelectedProduct} i din kundkorg");
             _userManager.CurrentUser.Kundkorg = UserCart;
             _produkt.Amount = Amount;
-            Amount = 0;
             _db.UpsertRecord("Users", _userManager.CurrentUser);
+            Amount = 0;
         }
 
         /// <summary>
@@ -142,6 +149,10 @@ namespace Labb3Kompl.ViewModel
         {
             return SelectedProductType == null
                 || type.ProductType.IndexOf(SelectedProductType, StringComparison.OrdinalIgnoreCase) != -1;
+        }
+        public void ImageDecider()
+        {
+            
         }
     }
 }

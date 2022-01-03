@@ -45,7 +45,8 @@
             <Label
                 Margin="0,30,0,10"
                 HorizontalContentAlignment="Center"
-                Content="" />
+                Content="{Binding TotalSum, UpdateSourceTrigger=PropertyChanged}"
+                FontSize="14" />
 
             <Button
                 Width="150"

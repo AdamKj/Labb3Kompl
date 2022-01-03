@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
@@ -14,6 +15,7 @@ namespace Labb3Kompl.ViewModel
 {
     class AdminViewModel : ObservableObject
     {
+        public ObservableCollection<string> ProductTypes { get; set; } = new();
         public ObservableCollection<Produkt> Products { get; set; } = new();
         private readonly NavigationManager _navigationManager;
         private readonly UserManager _userManager;
@@ -27,6 +29,8 @@ namespace Labb3Kompl.ViewModel
         public AdminViewModel(NavigationManager navigationManager, UserManager userManager)
         {
             LoadProducts();
+            GetProductTypes();
+            LoadProductType();
             _navigationManager = navigationManager;
             _userManager = userManager;
             CurrentUser = _userManager.CurrentUser;
@@ -78,6 +82,22 @@ namespace Labb3Kompl.ViewModel
                 }
             }
         }
+        public ICollectionView ItemsView
+        {
+            get => CollectionViewSource.GetDefaultView(Products);
+        }
+
+        private string _selectedProductType;
+        public string SelectedProductType
+        {
+            get => _selectedProductType;
+            set
+            {
+                _selectedProductType = value;
+                OnPropertyChanged();
+                ItemsView.Refresh();
+            }
+        }
 
         public void LoadProducts()
         {
@@ -127,6 +147,31 @@ namespace Labb3Kompl.ViewModel
             Products.Remove(Products.Single(p => p.ObjectId == _produkt.ObjectId));
             _db.DeleteRecord<Produkt>("Produkter", produkt.ObjectId);
             CollectionViewSource.GetDefaultView(Products).Refresh();
+        }
+        public void GetProductTypes()
+        {
+            var dbClient = new MongoClient();
+            _database = dbClient.GetDatabase("Butik");
+            var collection = _database.GetCollection<Produkt>("Produkter");
+
+            var productTypes = collection.AsQueryable().Select(e => e.ProductType).Distinct();
+
+            foreach (var items in productTypes)
+            {
+                ProductTypes.Add(items);
+            }
+        }
+
+        public void LoadProductType()
+        {
+            var source = CollectionViewSource.GetDefaultView(Products);
+            source.Filter = o => Filter(o as Produkt);
+        }
+
+        private bool Filter(Produkt type)
+        {
+            return SelectedProductType == null
+                   || type.ProductType.IndexOf(SelectedProductType, StringComparison.OrdinalIgnoreCase) != -1;
         }
     }
 }

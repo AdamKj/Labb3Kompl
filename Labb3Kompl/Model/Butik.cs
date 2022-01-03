@@ -1,5 +1,4 @@
 ﻿using Labb3Kompl.Managers;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 
