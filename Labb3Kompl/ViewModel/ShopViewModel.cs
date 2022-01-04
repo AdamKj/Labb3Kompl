@@ -29,23 +29,14 @@ namespace Labb3Kompl.ViewModel
 
         public ShopViewModel(NavigationManager navigationManager, UserManager userManager)
         {
+            _navigationManager = navigationManager;
+            _userManager = userManager;
             LoadProducts();
             GetProductTypes();
             LoadProductType();
-            
-            _userManager.CurrentUser.Kundkorg = UserCart;
-            _navigationManager = navigationManager;
-            _userManager = userManager;
+            UserCart = _userManager.CurrentUser.Kundkorg;
             KundprofilViewCommand = new RelayCommand(() => { _navigationManager.CurrentView = new KundProfilViewModel(_navigationManager, _userManager); });
             ImageDecider();
-        }
-
-        private bool _isFalse;
-
-        public bool IsFalse
-        {
-            get => _isFalse;
-            set => SetProperty(ref _isFalse, value);
         }
 
         private int _amount;
@@ -81,33 +72,54 @@ namespace Labb3Kompl.ViewModel
                 {
                     _produkt = value;
                     OnPropertyChanged(nameof(SelectedProduct));
+                    ImageUrl = _produkt.ImageUrl;
                 }
             }
         }
 
+        private string _imageUrl;
+        public string ImageUrl
+        {
+            get => _imageUrl;
+            set => SetProperty(ref _imageUrl, value);
+        }
+
         public void AddToCart()
         {
+            if (SelectedProduct.Amount == 0 || Amount > SelectedProduct.Amount)
+            {
+                MessageBox.Show("Den här varan är tyvärr slut eller finns för få av i lagret. Kontakta butiksadministratör", "Error", MessageBoxButton.OK);
+                Amount = 0;
+                return;
+            }
             if (Amount == 0 || SelectedProduct == null)
             {
                 MessageBox.Show("Vänligen välj produkt och antalet du vill lägga i din kundkorg","Error", MessageBoxButton.OK);
                 return;
             }
-            if (UserCart.Contains(SelectedProduct))
+
+            var existingProduct = UserCart.FirstOrDefault(p => p.ObjectId == SelectedProduct.ObjectId);
+            if (existingProduct != null)
             {
                 MessageBox.Show($"Du har lagt till {Amount}st mer {SelectedProduct} i din kundkorg");
                 _userManager.CurrentUser.Kundkorg = UserCart;
-                _produkt.Amount += Amount;
+                existingProduct.Amount += Amount;
+                _produkt.Amount -= Amount;
                 _db.UpsertRecord("Users", _userManager.CurrentUser);
+                _db.UpsertProduct("Produkter", SelectedProduct);
                 Amount = 0;
                 return;
             }
-            
-            UserCart.Add(SelectedProduct);
+
+            var produktToAdd = SelectedProduct.Copy();
+            produktToAdd.Amount = Amount;
+            UserCart.Add(produktToAdd);
+            _produkt.Amount -= Amount;
             MessageBox.Show($"Du har lagt till {Amount}st {SelectedProduct} i din kundkorg");
             _userManager.CurrentUser.Kundkorg = UserCart;
-            _produkt.Amount = Amount;
             _db.UpsertRecord("Users", _userManager.CurrentUser);
-            Amount = 0;
+            _db.UpsertProduct("Produkter", SelectedProduct);
+             Amount = 0;
         }
 
         /// <summary>

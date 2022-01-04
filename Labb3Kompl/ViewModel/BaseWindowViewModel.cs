@@ -1,8 +1,7 @@
-﻿using System.Windows.Input;
-using Labb3Kompl.Managers;
+﻿using Labb3Kompl.Managers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using MongoDB.Driver;
+using System.Windows.Input;
 
 namespace Labb3Kompl.ViewModel
 {

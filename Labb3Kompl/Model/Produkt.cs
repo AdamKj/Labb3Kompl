@@ -7,7 +7,6 @@ namespace Labb3Kompl.Model
 {
     class Produkt : ObservableObject
     {
-        private readonly Managers.MongoDB _db = new("Butik");
         private readonly IMongoDatabase _database;
 
         [BsonId]
@@ -25,6 +24,9 @@ namespace Labb3Kompl.Model
         [BsonElement] 
         public int Amount { get; set; }
 
+        [BsonElement]
+        public string ImageUrl { get; set; }
+
         public Produkt()
         {
             var dbClient = new MongoClient();
@@ -35,6 +37,18 @@ namespace Labb3Kompl.Model
         public override string ToString()
         {
             return $"{ProductName}";
+        }
+
+        public Produkt Copy()
+        {
+            var prod = new Produkt();
+            prod.ObjectId = ObjectId;
+            prod.ProductName = ProductName;
+            prod.ProductType = ProductType;
+            prod.Price = Price;
+            prod.Amount = 0;
+            prod.ImageUrl = ImageUrl;
+            return prod;
         }
     }
 }

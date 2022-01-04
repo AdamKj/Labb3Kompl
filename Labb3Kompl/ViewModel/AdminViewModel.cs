@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Labb3Kompl.Managers;
+using Labb3Kompl.Model;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using MongoDB.Driver;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
-using Labb3Kompl.Managers;
-using Labb3Kompl.Model;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
-using MongoDB.Driver;
 
 namespace Labb3Kompl.ViewModel
 {
@@ -28,11 +28,11 @@ namespace Labb3Kompl.ViewModel
         public ICommand DeleteProductCommand { get; }
         public AdminViewModel(NavigationManager navigationManager, UserManager userManager)
         {
+            _navigationManager = navigationManager;
+            _userManager = userManager;
             LoadProducts();
             GetProductTypes();
             LoadProductType();
-            _navigationManager = navigationManager;
-            _userManager = userManager;
             CurrentUser = _userManager.CurrentUser;
             StartViewCommand = new RelayCommand(() => { _navigationManager.CurrentView = new StartViewModel(_navigationManager, _userManager); });
             AddNewProductCommand = new RelayCommand(AddNewProduct);
@@ -68,6 +68,13 @@ namespace Labb3Kompl.ViewModel
         {
             get => _amount;
             set => SetProperty(ref _amount, value);
+        }
+
+        private string _imageUrl;
+        public string ImageUrl
+        {
+            get => _imageUrl;
+            set => SetProperty(ref _imageUrl, value);
         }
 
         public Produkt SelectedProduct
@@ -123,14 +130,15 @@ namespace Labb3Kompl.ViewModel
                 break;
             }
 
-            _db.InsertNew("Produkter", new Produkt { ProductName = ProductName, ProductType = ProductType, Amount = Amount, Price = Price});
+            _db.InsertNew("Produkter", new Produkt { ProductName = ProductName, ProductType = ProductType, Amount = Amount, Price = Price, ImageUrl = ImageUrl});
             MessageBox.Show("Produkten är nu tillagd i butiken!", "Success", MessageBoxButton.OK); 
             Products.Clear();
             LoadProducts();
-            ProductName = null;
-            ProductType = null;
+            ProductName = String.Empty;
+            ProductType = String.Empty;
             Amount = 0;
             Price = 0;
+            ImageUrl = String.Empty;
         }
 
         public void DeleteSelectedProduct(Produkt produkt)
@@ -139,7 +147,7 @@ namespace Labb3Kompl.ViewModel
 
             if (SelectedProduct == null)
             {
-                MessageBox.Show("Vänligen välj produkten du vill ta bort.", "Error", MessageBoxButton.OK);
+                MessageBox.Show("Vänligen välj produkten du vill ta bort först.", "Error", MessageBoxButton.OK);
                 return;
             }
 

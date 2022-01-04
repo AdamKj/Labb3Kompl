@@ -68,7 +68,7 @@
                 Background="Transparent"
                 FontSize="14"
                 ItemsSource="{Binding UserCart, UpdateSourceTrigger=PropertyChanged}"
-                SelectedItem="{Binding SelectedProdukt, UpdateSourceTrigger=PropertyChanged}">
+                SelectedItem="{Binding SelectedProduct, UpdateSourceTrigger=PropertyChanged}">
 
                 <ListView.View>
                     <GridView AllowsColumnReorder="True">
@@ -94,15 +94,37 @@
                 </ListView.View>
             </ListView>
 
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
-            <Button
-                Width="150"
-                Height="50"
-                Margin="0,10,0,0"
-                VerticalAlignment="Bottom"
-                Command="{Binding ShopViewCommand, UpdateSourceTrigger=PropertyChanged}"
-                Content="Butik"
-                FontSize="18" />
+                <Label Content="Hur många varor vill du ta bort:" />
+                <TextBox
+                    Width="80"
+                    Height="20"
+                    Text="{Binding AmountToRemove, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+
+                <Button
+                    Width="150"
+                    Height="50"
+                    Margin="0,0,20,0"
+                    VerticalAlignment="Center"
+                    Command="{Binding DeleteProductCommand, UpdateSourceTrigger=PropertyChanged}"
+                    Content="Ta bort vara"
+                    FontSize="18" />
+
+                <Button
+                    Width="150"
+                    Height="50"
+                    Margin="0,0,0,0"
+                    VerticalAlignment="Center"
+                    Command="{Binding ShopViewCommand, UpdateSourceTrigger=PropertyChanged}"
+                    Content="Butik"
+                    FontSize="18" />
+            </StackPanel>
+
+
 
         </StackPanel>
 

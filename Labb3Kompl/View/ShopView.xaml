@@ -117,7 +117,8 @@
             <Image
                 Width="180"
                 Height="120"
-                Margin="0,20,0,0" />
+                Margin="0,20,0,0"
+                Source="{Binding ImageUrl}" />
 
         </StackPanel>
 
