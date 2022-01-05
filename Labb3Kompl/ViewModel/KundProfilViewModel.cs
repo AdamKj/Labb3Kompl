@@ -97,6 +97,12 @@ namespace Labb3Kompl.ViewModel
                 return;
             }
 
+            if (AmountToRemove > SelectedProduct.Amount)
+            {
+                MessageBox.Show("Du kan inte ta bort ett större antal av denna vara än vad du har i varukorgen! Försök igen.", "Error", MessageBoxButton.OK);
+                return;
+            }
+
             var temp = Products.FirstOrDefault(p => p.ObjectId == SelectedProduct.ObjectId);
             if (SelectedProduct.Amount > AmountToRemove)
             {
