@@ -70,7 +70,7 @@ namespace Labb3Kompl.ViewModel
             {
                 if (_produkt != value)
                 {
-                    _produkt = value;
+                    _produkt = value ?? new Produkt();
                     OnPropertyChanged(nameof(SelectedProduct));
                     ImageUrl = _produkt.ImageUrl;
                 }
